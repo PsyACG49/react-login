@@ -6,7 +6,7 @@ import { FaTimes } from "react-icons/fa";
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
-const index = () => {
+const Index = () => {
   const userRef = useRef();
   const errRef = useRef();
 
@@ -110,7 +110,7 @@ const index = () => {
                 userFocus && user && !validName ? "instructions" : "offscreen"
               }
             >
-              <BiInfoCircle />
+              <BiInfoCircle className="info__icon" />
               4 to 24 characters.
               <br />
               Must being with a letter.
@@ -140,7 +140,7 @@ const index = () => {
               id="pwdnote"
               className={pwdFocus && !validPwd ? "instructions" : " offscreen"}
             >
-              <BiInfoCircle />
+              <BiInfoCircle className="info__icon" />
               8 to 24 characters.
               <br />
               Must include uppercase and lowercase letters, a number and a
@@ -178,7 +178,7 @@ const index = () => {
                 matchPwdFocus && !validMatchPwd ? "intructions" : "offscreen"
               }
             >
-              <BiInfoCircle />
+              <BiInfoCircle className="info__icon" />
               Must match the first password input field.
             </p>
             <button
@@ -202,4 +202,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;
