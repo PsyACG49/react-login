@@ -2,9 +2,12 @@ import { useRef, useState, useEffect } from "react";
 import { BiInfoCircle } from "react-icons/bi";
 import { AiOutlineCheck } from "react-icons/ai";
 import { FaTimes } from "react-icons/fa";
+import axios from "../../api/axios";
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+
+const REGISTER_URL = "/register";
 
 const Index = () => {
   const userRef = useRef();
@@ -49,7 +52,7 @@ const Index = () => {
     setErrMsg("");
   }, [user, pwd, matchPwd]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const v1 = USER_REGEX.test(user);
@@ -59,8 +62,30 @@ const Index = () => {
       setErrMsg("Invalid entry");
       return;
     }
-    console.log(user, pwd);
-    setSuccess(true);
+
+    try {
+      const response = await axios.post(
+        REGISTER_URL,
+        JSON.stringify({ user, pwd }),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+      console.log(response.data);
+      console.log(response.accessToken);
+      console.log(JSON.stringify(response));
+      setSuccess(true);
+    } catch (error) {
+      if (!error?.response) {
+        setErrMsg("No server response");
+      } else if (error.response?.status === 409) {
+        setErrMsg("Username Taken");
+      } else {
+        setErrMsg("Registration Failed");
+      }
+      errMsg.current.focus();
+    }
   };
 
   return (
