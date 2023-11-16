@@ -21,7 +21,6 @@ const index = () => {
         isMounted && setUsers(response.data);
       } catch (error) {
         console.log(error);
-        console.log("hola");
         navigate("/login", { state: { from: location }, replace: true });
       }
     };
